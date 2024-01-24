@@ -1,0 +1,27 @@
+name: push created
+
+on:
+  push:
+    types: [created]
+
+jobs:
+  debug:
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+    - name: debug
+      env:
+        github_json: ${{ toJSON(github) }}
+      run: |
+        echo "::group::env"
+        env
+        echo "::endgroup::"      
+        echo "::group::event-file"
+        cat "$GITHUB_EVENT_PATH"
+        echo "::endgroup::"
+        echo "::group::github"
+        echo "$github_json"
+        echo "::endgroup::"
+        echo
